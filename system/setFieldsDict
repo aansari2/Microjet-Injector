@@ -1,0 +1,59 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  dev                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+defaultFieldValues
+(
+    volScalarFieldValue alpha.air 1
+    volScalarFieldValue alpha.water 0
+	volVectorFieldValue U (0 0 0)			// all zero unless specified below
+
+);
+
+regions
+(
+    boxToCell
+    {
+        box (-0.000025 -0.000050 -1) (0 0.000025 1);
+        fieldValues
+        (
+            volScalarFieldValue alpha.water 1
+            volScalarFieldValue alpha.air 0
+        );
+    }
+	sphereToCell
+    {
+        centre (0 -0.000050 0); 
+		radius 0.000025;
+        fieldValues
+        (
+            volScalarFieldValue alpha.water 1
+            volScalarFieldValue alpha.air 0
+        );
+    }
+	boxToCell	// boxToFace: also set the values on the outlet faces; else we will have continuity problems by first iteration since U is zero there
+	{
+		box (-0.000025 -100.000050 -1) (0 0.000025 1); 	
+		fieldValues
+		(
+			volVectorFieldValue U (0 -5 0)	// outlet faces velocity
+		);
+	}
+
+);
+
+
+// ************************************************************************* //

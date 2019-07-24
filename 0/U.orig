@@ -1,0 +1,62 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  dev                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+|*---------------------------------------------------------------------------*|
+|* OpenFOAM for Windows 18.10 (v1)                                           *|
+|* Built by CFD Support, www.cfdsupport.com (based on Symscape).             *|
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    location    "0";
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    front
+    { 
+        type            wedge;
+    }
+	
+	back
+    { 
+        type            wedge;
+    }
+	outlet_pressure
+    {
+	    type            pressureInletOutletVelocity;
+        value           uniform (0 0 0);
+    }
+    wall
+    {
+        type            noSlip;
+    }
+    inlet_helium
+    {
+        type            pressureInletOutletVelocity;
+        value           uniform (0 0 0);
+    }
+    inlet_water
+    {
+        type            pressureInletOutletVelocity;
+        value           uniform (0 -10 0);
+    }
+    axis
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
